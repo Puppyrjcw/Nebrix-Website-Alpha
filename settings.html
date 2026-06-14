@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="nebrixlogo.svg">
+    <title>Nebrix - Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
+    <script src="nebrix.js"></script>
+    <style>
+        .settings-container {
+            max-width: 600px;
+            margin: calc(var(--nav-h) + 40px) auto 40px;
+            padding: 0 20px;
+        }
+        .settings-header {
+            margin-bottom: 32px;
+        }
+        .settings-header h1 {
+            font-size: 2rem; font-weight: 800;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .settings-header h1 .material-symbols-outlined {
+            color: var(--btn-green); font-size: 2rem;
+        }
+        .settings-header p {
+            color: var(--text-muted); font-size: 0.95rem;
+            margin-top: 6px;
+        }
+        .settings-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+        .settings-card h2 {
+            font-size: 1.1rem; font-weight: 700;
+            margin-bottom: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .settings-card h2 .material-symbols-outlined {
+            color: var(--btn-green);
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.8rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--text-body); margin-bottom: 6px;
+        }
+        .input-group input {
+            width: 100%; padding: 12px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main); border-radius: 12px;
+            font-size: 0.95rem; outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-group input:focus {
+            border-color: var(--btn-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+        .input-group input::placeholder { color: var(--text-muted); }
+        .input-hint {
+            font-size: 0.78rem; color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .save-btn {
+            width: 100%; padding: 14px;
+            background: var(--btn-green); border: none;
+            color: #fff; font-size: 0.95rem; font-weight: 700;
+            border-radius: 12px; cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            position: relative; overflow: hidden;
+        }
+        .save-btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+        .save-btn::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .save-btn:hover::before { left: 100%; }
+        .message {
+            padding: 12px 16px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600;
+            margin-bottom: 16px; display: none;
+        }
+        .message.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .danger-zone {
+            border-color: rgba(239, 68, 68, 0.2) !important;
+        }
+        .danger-zone h2 { color: #ef4444; }
+        .danger-zone h2 .material-symbols-outlined { color: #ef4444 !important; }
+        .danger-btn {
+            width: 100%; padding: 14px;
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444; font-size: 0.95rem; font-weight: 700;
+            border-radius: 12px; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .danger-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+        .loading-state {
+            text-align: center; padding: 40px;
+            color: var(--text-muted); font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<nav id="nebrix-nav"></nav>
+
+<div class="settings-container">
+    <div id="settings-content" class="loading-state anim-fade-in-up">
+        <span class="material-symbols-outlined" style="font-size: 2rem; margin-bottom: 12px; display: block;">sync</span>
+        Loading settings...
+    </div>
+</div>
+
+<script>
+const API_BASE = 'https://api.nebrixgames.com';
+
+async function loadSettings() {
+    const container = document.getElementById('settings-content');
+    const token = localStorage.getItem('nebrix_token');
+    
+    if (!token) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:40px;">
+                <span class="material-symbols-outlined" style="font-size:3rem;color:var(--text-muted);">lock</span>
+                <p style="margin-top:16px;color:var(--text-muted);font-weight:600;">Please log in to access settings.</p>
+                <a href="index.html" class="btn-primary" style="margin-top:20px;display:inline-flex;">Go to Login</a>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="settings-header anim-fade-in-up">
+            <h1>
+                <span class="material-symbols-outlined">settings</span>
+                Settings
+            </h1>
+            <p>Manage your account preferences</p>
+        </div>
+
+        <div class="settings-card anim-fade-in-up" style="animation-delay:0.1s;">
+            <h2>
+                <span class="material-symbols-outlined">lock</span>
+                Change Password
+            </h2>
+            <div id="password-message" class="message"></div>
+            <div class="input-group">
+                <label>Current Password</label>
+                <input type="password" id="current-password" placeholder="Enter current password" autocomplete="current-password">
+            </div>
+            <div class="input-group">
+                <label>New Password</label>
+                <input type="password" id="new-password" placeholder="At least 8 characters" autocomplete="new-password">
+                <p class="input-hint">Needs 3 of: lowercase, uppercase, number, special character</p>
+            </div>
+            <div class="input-group">
+                <label>Confirm New Password</label>
+                <input type="password" id="confirm-password" placeholder="Re-enter new password" autocomplete="new-password">
+            </div>
+            <button class="save-btn" id="change-password-btn" onclick="changePassword()">
+                Update Password
+            </button>
+        </div>
+
+        <div class="settings-card anim-fade-in-up" style="animation-delay:0.2s;">
+            <h2>
+                <span class="material-symbols-outlined">info</span>
+                About
+            </h2>
+            <p style="color:var(--text-body);font-size:0.9rem;line-height:1.6;">
+                Nebrix is a community-focused platform for creating, sharing, and playing games. 
+                Built with C++, Lua scripting, and multiplayer support.
+            </p>
+            <a href="https://www.nebrixgames.com/about.html" target="_blank" 
+               style="display:inline-flex;align-items:center;gap:6px;color:var(--btn-green);font-weight:600;font-size:0.9rem;margin-top:12px;text-decoration:none;">
+                Learn more
+                <span class="material-symbols-outlined" style="font-size:1rem;">open_in_new</span>
+            </a>
+        </div>
+
+        <div class="settings-card danger-zone anim-fade-in-up" style="animation-delay:0.3s;">
+            <h2>
+                <span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </h2>
+            <p style="color:var(--text-body);font-size:0.9rem;margin-bottom:16px;">
+                Sign out of your Nebrix account. You'll need to log in again to access your games.
+            </p>
+            <button class="danger-btn" onclick="logout()">
+                <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:6px;">logout</span>
+                Sign Out
+            </button>
+        </div>
+    `;
+}
+
+async function changePassword() {
+    const token = localStorage.getItem('nebrix_token');
+    const currentPassword = document.getElementById('current-password').value;
+    const newPassword = document.getElementById('new-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const message = document.getElementById('password-message');
+    const btn = document.getElementById('change-password-btn');
+
+    message.className = 'message';
+    message.textContent = '';
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        message.textContent = 'Please fill in all password fields.';
+        message.className = 'message error';
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        message.textContent = 'New passwords do not match.';
+        message.className = 'message error';
+        return;
+    }
+
+    if (newPassword.length < 8) {
+        message.textContent = 'Password must be at least 8 characters.';
+        message.className = 'message error';
+        return;
+    }
+
+    btn.textContent = 'Updating...';
+    btn.classList.add('btn-loading');
+    btn.style.opacity = '0.8';
+    btn.style.pointerEvents = 'none';
+
+    try {
+        const res = await fetch(`${API_BASE}/change-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ currentPassword, newPassword })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            message.textContent = data.message || 'Password changed successfully! Please log in again.';
+            message.className = 'message success';
+            
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            
+            setTimeout(() => {
+                clearSession();
+                window.location.href = 'index.html';
+            }, 2000);
+        } else {
+            message.textContent = data.error || 'Failed to change password.';
+            message.className = 'message error';
+        }
+    } catch (err) {
+        message.textContent = 'Could not reach server.';
+        message.className = 'message error';
+    }
+
+    btn.textContent = 'Update Password';
+    btn.classList.remove('btn-loading');
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (typeof renderNav === "function") renderNav("settings");
+    loadSettings();
+});
+</script>
+</body>
+</html>
