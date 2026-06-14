@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="nebrixlogo.svg">
+    <title>Nebrix - Play Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
+    <script src="nebrix.js"></script>
+    <style>
+        .play-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+        .game-header {
+            margin-bottom: 20px;
+        }
+        .game-title-big {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1;
+            color: var(--text-main);
+        }
+        .game-creator {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-transform: uppercase;
+        }
+        .game-creator span {
+            color: var(--btn-green);
+        }
+        .top-row {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-bottom: 4px solid var(--btn-green);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .game-media {
+            background: #111;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid var(--border-color);
+        }
+        .game-media img {
+            width: 32%;
+            opacity: 0.5;
+        }
+        .play-controls {
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .btn-play-big {
+            background: var(--btn-green);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: inherit;
+            margin-bottom: 20px;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-play-big:hover {
+            background: var(--btn-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+        .stats-list {
+            list-style: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .stats-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .stats-list li:last-child {
+            border-bottom: none;
+        }
+        .stats-list li span:last-child {
+            color: var(--text-main);
+            font-weight: 900;
+        }
+        .description-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .description-box .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .launcher-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .launcher-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--btn-green);
+            border-radius: var(--radius-lg);
+            width: 440px;
+            max-width: 92vw;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .launcher-header {
+            padding: 18px 24px 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .launcher-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .launcher-body {
+            padding: 22px 24px;
+        }
+        .launcher-status {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--btn-green);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dot-anim::after {
+            content: '';
+            animation: dots 1.4s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0%,20%  { content: ''; }
+            40%     { content: '.'; }
+            60%     { content: '..'; }
+            80%,100%{ content: '...'; }
+        }
+        .launcher-text {
+            font-size: 0.88rem;
+            color: var(--text-body);
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+        .launcher-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        @media (max-width: 680px) {
+            .top-row {
+                grid-template-columns: 1fr;
+            }
+            .game-media {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="nebrix-nav"></nav>
+
+<div class="play-layout" style="margin-top: var(--nav-h);">
+
+    <div class="game-header">
+        <h1 id="display-name" class="game-title-big">Loading...</h1>
+        <p class="game-creator">By <span id="display-author">—</span></p>
+    </div>
+
+    <div class="top-row">
+        <div class="game-media">
+            <img src="nebrixlogo.svg" alt="Nebrix">
+        </div>
+        <div class="play-controls">
+            <button class="btn-play-big" onclick="launchGame()">
+                <span class="material-symbols-outlined" style="font-size:1.8rem;">play_arrow</span>
+                Play
+            </button>
+            <ul class="stats-list">
+                <li>
+                    <span style="display:flex;align-items:center;gap:6px;">
+                        <span class="material-symbols-outlined" style="font-size:1rem;">play_circle</span> Visits
+                    </span>
+                    <span id="stat-visits">0</span>
+                </li>
+                <li>
+                    <span style="display:flex;align-items:center;gap:6px;">
+                        <span class="material-symbols-outlined" style="font-size:1rem;">person</span> Author
+                    </span>
+                    <span id="stat-author">—</span>
+                </li>
+                <li>
+                    <span style="display:flex;align-items:center;gap:6px;">
+                        <span class="material-symbols-outlined" style="font-size:1rem;">calendar_today</span> Published
+                    </span>
+                    <span id="stat-created">—</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="description-box">
+        <div class="section-title">
+            <span class="material-symbols-outlined">description</span> Description
+        </div>
+        <p id="display-desc" style="color:var(--text-body);font-size:0.95rem;font-weight:600;line-height:1.7;">
+            Fetching game data...
+        </p>
+    </div>
+
+</div>
+
+<div id="launcher-modal" class="launcher-overlay">
+    <div class="launcher-box">
+        <div class="launcher-header">
+            <div class="launcher-title">
+                <span class="material-symbols-outlined">rocket_launch</span>
+                Launching Nebrix
+            </div>
+        </div>
+        <div class="launcher-body">
+            <div class="launcher-status">
+                <span class="material-symbols-outlined" style="font-size:1rem;">sync</span>
+                Starting game<span class="dot-anim"></span>
+            </div>
+            <p class="launcher-text">
+                If the game didn't open automatically, you may need to install the Nebrix desktop client first.
+            </p>
+            <div class="launcher-actions">
+                <a href="https://github.com/Puppyrjcw/Nebrix/releases/tag/NebrixClientV0.3" target="_blank" class="btn-primary" style="justify-content:center;">
+                    <span class="material-symbols-outlined">download</span>
+                    Download Nebrix Client
+                </a>
+                <button class="btn-secondary" onclick="closeLauncher()" style="justify-content:center;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    if (typeof renderNav === "function") renderNav("home");
+
+    const params = new URLSearchParams(window.location.search);
+    const gameId = params.get("id");
+
+    if (!gameId) {
+        document.getElementById("display-name").textContent = "No Game Selected";
+        document.getElementById("display-desc").textContent = "Please select a game from the home page.";
+        return;
+    }
+
+    try {
+        const endpoint = typeof API !== "undefined" ? API : "https://api.nebrixgames.com";
+        const res = await fetch(endpoint + "/published");
+        const data = await res.json();
+        const games = Array.isArray(data) ? data : (data.games || []);
+        const game = games.find(g => g.game_id === gameId);
+
+        if (game) {
+            document.title = game.name + " — Nebrix";
+            document.getElementById("display-name").textContent = game.name;
+            document.getElementById("display-author").textContent = game.author || "Unknown";
+            document.getElementById("stat-author").textContent = game.author || "Unknown";
+            document.getElementById("display-desc").textContent = game.description || "No description provided.";
+            document.getElementById("stat-visits").textContent = (game.play_count ?? 0).toLocaleString();
+
+            const pubDate = game.published_at || game.created_at;
+            if (pubDate) {
+                document.getElementById("stat-created").textContent =
+                    new Date(pubDate * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+            } else {
+                document.getElementById("stat-created").textContent = "—";
+            }
+        } else {
+            document.getElementById("display-name").textContent = "Game Not Found";
+            document.getElementById("display-desc").textContent = "This game does not exist on Nebrix.";
+        }
+    } catch (e) {
+        document.getElementById("display-desc").textContent = "Could not reach Nebrix servers.";
+    }
+});
+
+function launchGame() {
+    const params = new URLSearchParams(window.location.search);
+    const gameId = params.get("id");
+    if (!gameId) { alert("No game ID found."); return; }
+
+    if (typeof isLoggedIn === "function" && !isLoggedIn()) {
+        if (typeof showLoginModal === "function") showLoginModal();
+        else alert("Please log in before playing.");
+        return;
+    }
+
+    const username = (typeof getUsername === "function" ? getUsername() : null)
+        || localStorage.getItem("nebrix_username") || "";
+    if (!username) { alert("Could not find your username. Please log in again."); return; }
+
+    window.location.href = "nebrix://play/" + gameId + "/" + encodeURIComponent(username);
+    document.getElementById("launcher-modal").style.display = "flex";
+}
+
+function closeLauncher() {
+    document.getElementById("launcher-modal").style.display = "none";
+}
+</script>
+</body>
+</html>
