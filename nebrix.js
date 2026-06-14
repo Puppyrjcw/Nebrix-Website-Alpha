@@ -51,8 +51,8 @@ function renderNav(activePage) {
 
     navContainer.innerHTML = `
         <a href="home.html" class="nav-brand-link">
-            <img src="assets/images/nebrixlogo2.png" alt="" class="nav-logo-icon">
-            <span class="nav-brand-text">Nebrix</span>
+            <img src="assets/images/nebrixlogo.png" alt="" class="nav-logo-icon">
+            <span class="nav-brand-text">ebrix</span>
         </a>
         <div class="nav-links">
             <a href="home.html" class="${activePage === 'home' ? 'active' : ''}">Home</a>
