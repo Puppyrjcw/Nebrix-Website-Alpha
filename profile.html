@@ -3,160 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="assets/images/nebrixlogo.png">
+    <link rel="icon" type="image/svg+xml" href="nebrixlogo.svg">
     <title>Profile — Nebrix</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block">
     <script src="nebrix.js"></script>
     <style>
-        .profile-banner {
-            background: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
-            margin-top: var(--nav-h);
-        }
-        .profile-banner-top {
-            height: 140px;
-            background: linear-gradient(135deg, var(--green-top) 0%, var(--green-bottom) 100%);
-            position: relative;
-            transition: background 0.4s ease;
-        }
-        .profile-banner-body {
-            padding: 0 10% 24px;
-            display: flex;
-            align-items: flex-end;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .profile-avatar {
-            width: 90px; height: 90px;
-            border-radius: 16px;
-            background: var(--green-top);
-            border: 4px solid var(--bg-dark);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2.4rem; font-weight: 900; color: #fff;
-            text-transform: uppercase;
-            margin-top: -45px; flex-shrink: 0; user-select: none;
-        }
+        .profile-banner { background: var(--bg-panel); border-bottom: 1px solid var(--border-color); margin-top: var(--nav-h); }
+        .profile-banner-top { height: 140px; background: linear-gradient(135deg, var(--green-top) 0%, var(--green-bottom) 100%); position: relative; transition: background 0.4s ease; }
+        .profile-banner-body { padding: 0 10% 24px; display: flex; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+        .profile-avatar { width: 90px; height: 90px; border-radius: 16px; background: var(--green-top); border: 4px solid var(--bg-dark); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; font-weight: 900; color: #fff; text-transform: uppercase; margin-top: -45px; flex-shrink: 0; }
         .profile-info { padding-bottom: 4px; flex: 1; min-width: 200px; }
-        .profile-username {
-            font-size: 1.8rem; font-weight: 900; text-transform: uppercase;
-            color: var(--text-main); line-height: 1;
-        }
-        .profile-userid {
-            font-size: 0.78rem; font-weight: 700; color: var(--text-muted);
-            margin-top: 2px; font-family: monospace;
-        }
-        .profile-joined {
-            font-size: 0.82rem; font-weight: 700; color: var(--text-muted);
-            text-transform: uppercase; margin-top: 6px;
-            display: flex; align-items: center; gap: 5px;
-        }
-        .own-profile-badge {
-            background: var(--btn-green); color: #fff;
-            font-size: 0.7rem; font-weight: 900; text-transform: uppercase;
-            padding: 3px 8px; border-radius: 4px;
-        }
-        .profile-stats-bar {
-            display: flex; gap: 0;
-            border-top: 1px solid var(--border-color);
-        }
-        .profile-stat {
-            padding: 14px 28px;
-            border-right: 1px solid var(--border-color);
-            text-align: center;
-        }
+        .profile-username { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; color: var(--text-main); line-height: 1; }
+        .profile-userid { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-top: 2px; font-family: monospace; }
+        .profile-joined { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 6px; display: flex; align-items: center; gap: 5px; }
+        .own-profile-badge { background: var(--btn-green); color: #fff; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+        .profile-stats-bar { display: flex; border-top: 1px solid var(--border-color); }
+        .profile-stat { padding: 14px 28px; border-right: 1px solid var(--border-color); text-align: center; }
         .profile-stat:last-child { border-right: none; }
         .profile-stat-value { font-size: 1.4rem; font-weight: 900; color: var(--text-main); line-height: 1; }
-        .profile-stat-label {
-            font-size: 0.72rem; font-weight: 700; color: var(--text-muted);
-            text-transform: uppercase; margin-top: 4px;
-        }
-        .profile-layout {
-            max-width: 1100px; margin: 30px auto; padding: 0 20px 60px;
-            display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: flex-start;
-        }
+        .profile-stat-label { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+        .profile-layout { max-width: 1100px; margin: 30px auto; padding: 0 20px 60px; display: grid; grid-template-columns: 260px 1fr; gap: 20px; align-items: flex-start; }
         .profile-sidebar { display: flex; flex-direction: column; gap: 8px; }
-        .sidebar-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-        }
-        .sidebar-card-header {
-            padding: 12px 16px; font-size: 0.78rem; font-weight: 900;
-            text-transform: uppercase; color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color);
-            display: flex; align-items: center; gap: 6px;
-        }
-        .sidebar-row {
-            padding: 11px 16px;
-            display: flex; align-items: center; gap: 10px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem; font-weight: 700; color: var(--text-main);
-            transition: background 0.15s;
-        }
+        .sidebar-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; }
+        .sidebar-card-header { padding: 12px 16px; font-size: 0.78rem; font-weight: 900; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; }
+        .sidebar-row { padding: 11px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
         .sidebar-row:last-child { border-bottom: none; }
         .sidebar-row.clickable { cursor: pointer; }
         .sidebar-row.clickable:hover { background: rgba(255,255,255,0.03); }
         .sidebar-row .material-symbols-outlined { font-size: 1rem; color: var(--text-muted); }
         .sidebar-row .label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; min-width: 55px; }
-
-        .color-swatch {
-            width: 22px; height: 22px; border-radius: 6px;
-            border: 2px solid transparent; cursor: pointer;
-            transition: all 0.15s; flex-shrink: 0;
-        }
+        .color-swatch { width: 22px; height: 22px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
         .color-swatch:hover { transform: scale(1.15); }
         .color-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px var(--btn-green); }
-
         .profile-main { display: flex; flex-direction: column; gap: 20px; }
-        .profile-section {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-        }
-        .profile-section-header {
-            padding: 14px 20px; border-bottom: 1px solid var(--border-color);
-            font-size: 0.9rem; font-weight: 900; text-transform: uppercase;
-            color: var(--text-main);
-            display: flex; align-items: center; justify-content: space-between; gap: 8px;
-        }
+        .profile-section { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; }
+        .profile-section-header { padding: 14px 20px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; font-weight: 900; text-transform: uppercase; color: var(--text-main); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .profile-section-header-left { display: flex; align-items: center; gap: 8px; }
-        .profile-games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        }
-        .profile-game-card {
-            border-right: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px; display: flex; flex-direction: column; gap: 6px;
-            cursor: pointer; transition: background 0.15s;
-        }
+        .profile-games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+        .profile-game-card { border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 16px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: background 0.15s; }
         .profile-game-card:hover { background: rgba(255,255,255,0.02); }
-        .profile-game-thumb {
-            width: 100%; aspect-ratio: 16/9;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 8px;
-        }
+        .profile-game-thumb { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
         .profile-game-thumb img { width: 30%; opacity: 0.3; }
-        .profile-game-name {
-            font-size: 0.9rem; font-weight: 800; text-transform: uppercase;
-            color: var(--text-main);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .profile-game-plays {
-            font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
-            text-transform: uppercase;
-            display: flex; align-items: center; gap: 4px;
-        }
-        .profile-not-found {
-            text-align: center; padding: 80px 20px; color: var(--text-muted);
-            font-weight: 900; text-transform: uppercase; font-size: 1.1rem;
-        }
-
+        .profile-game-name { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .profile-game-plays { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 4px; }
+        .profile-not-found { text-align: center; padding: 80px 20px; color: var(--text-muted); font-weight: 900; text-transform: uppercase; font-size: 1.1rem; }
         @media (max-width: 720px) {
             .profile-layout { grid-template-columns: 1fr; }
             .profile-banner-body { padding: 0 5% 20px; }
@@ -169,7 +60,7 @@
 <nav id="nebrix-nav"></nav>
 
 <div id="profile-root">
-    <div class="profile-not-found" id="profile-loading">
+    <div class="profile-not-found">
         <span class="material-symbols-outlined" style="font-size:3rem;display:block;margin-bottom:16px;opacity:0.3;">person</span>
         Loading profile...
     </div>
@@ -190,239 +81,166 @@ const PROFILE_COLORS = [
 ];
 
 function getProfileColor(identifier) {
-    const stored = localStorage.getItem(`nebrix_profile_color_${identifier}`);
-    if (stored) {
-        try {
-            const parsed = JSON.parse(stored);
-            if (parsed.top && parsed.bottom) return parsed;
-        } catch {}
-    }
+    const stored = localStorage.getItem('nebrix_profile_color_' + identifier);
+    if (stored) { try { const p = JSON.parse(stored); if (p.top) return p; } catch {} }
     const idx = String(identifier).split('').reduce((a, c) => a + c.charCodeAt(0), 0) % PROFILE_COLORS.length;
     return { top: PROFILE_COLORS[idx].top, bottom: PROFILE_COLORS[idx].bottom };
 }
 
 function setProfileColor(identifier, color) {
-    localStorage.setItem(`nebrix_profile_color_${identifier}`, JSON.stringify(color));
+    localStorage.setItem('nebrix_profile_color_' + identifier, JSON.stringify(color));
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    if (typeof renderNav === "function") renderNav("home");
+function getUserId() {
+    return localStorage.getItem('nebrix_userid');
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    if (typeof renderNav === 'function') renderNav('home');
 
     const params = new URLSearchParams(window.location.search);
-    const username = params.get("u") || params.get("user") || params.get("username");
-    const userId   = params.get("id") || params.get("userid") || params.get("uid");
-    const token    = localStorage.getItem('nebrix_token');
+    let identifier = params.get('u') || params.get('user') || params.get('username') || params.get('id') || params.get('userid') || params.get('uid');
 
-    // No identifier — show own profile
-    if (!username && !userId) {
-        const self = getUsername();
-        if (self) {
-            window.location.replace(`profile.html?u=${encodeURIComponent(self)}`);
+    if (!identifier) {
+        const selfId = getUserId();
+        if (selfId) {
+            window.location.replace('profile.html?u=' + selfId);
         } else {
-            showError("No profile specified.");
+            showError('Please log in to view your profile.');
         }
         return;
     }
 
     try {
-        // If using user ID, fetch the username from the API
-        let displayName = username;
-        let displayId   = userId;
-        let resolvedUser = null;
+        let user = null;
 
-        if (userId && token) {
-            // Try to get user info from profile endpoint
+        if (!isNaN(identifier)) {
             try {
-                const profileRes = await fetch(`${API_BASE}/profile`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if (profileRes.ok) {
-                    const ownProfile = await profileRes.json();
-                    // If the requested ID matches the logged-in user
-                    if (String(ownProfile.id) === String(userId)) {
-                        resolvedUser = ownProfile;
-                        displayName = ownProfile.username;
-                        displayId = ownProfile.id;
-                    }
-                }
+                const res = await fetch(API_BASE + '/user/' + identifier);
+                if (res.ok) user = await res.json();
             } catch {}
-
-            // If not own profile, try fetching from published games to find the username
-            if (!displayName) {
-                const res = await fetch(`${API_BASE}/published?limit=100`);
-                const data = await res.json();
-                const games = Array.isArray(data) ? data : (data.games || []);
-                
-                // Find any game by this user ID to get their username
-                // Since the published games endpoint doesn't return user_id,
-                // we search by matching — this is a best-effort approach
-                // For proper implementation, you'd want a /users/:id endpoint
-                displayName = `User #${userId}`;
-                displayId = userId;
-            }
         }
 
-        document.title = `${displayName} — Nebrix`;
+        if (!user) {
+            try {
+                const res = await fetch(API_BASE + '/user/by-name/' + encodeURIComponent(identifier));
+                if (res.ok) user = await res.json();
+            } catch {}
+        }
 
-        // Fetch published games
-        const res   = await fetch(`${API_BASE}/published?limit=100`);
-        const data  = await res.json();
+        if (!user) {
+            showError('User not found.');
+            return;
+        }
+
+        document.title = user.username + ' — Nebrix';
+
+        const res = await fetch(API_BASE + '/published?limit=100');
+        const data = await res.json();
         const allGames = Array.isArray(data) ? data : (data.games || []);
-
-        // Filter games by username (since the API returns author as username)
-        const games = userId && resolvedUser
-            ? allGames.filter(g => (g.author || "").toLowerCase() === resolvedUser.username.toLowerCase())
-            : allGames.filter(g => (g.author || "").toLowerCase() === (displayName || "").toLowerCase());
+        const games = allGames.filter(g => (g.author || '').toLowerCase() === user.username.toLowerCase());
 
         const totalPlays = games.reduce((sum, g) => sum + (g.play_count || 0), 0);
-        const isOwn      = (getUsername() || "").toLowerCase() === (displayName || "").toLowerCase();
-        const color      = getProfileColor(userId || displayName);
+        const isOwn = String(getUserId() || '') === String(user.id);
+        const color = getProfileColor(user.id);
 
-        renderProfile(displayName, displayId, games, totalPlays, isOwn, color);
+        renderProfile(user, games, totalPlays, isOwn, color);
 
     } catch (e) {
-        showError("Could not load profile. Please try again.");
+        showError('Could not load profile. Please try again.');
     }
 });
 
 function showError(msg) {
-    document.getElementById("profile-root").innerHTML = `
-        <div class="profile-not-found">
-            <span class="material-symbols-outlined" style="font-size:3rem;display:block;margin-bottom:16px;opacity:0.3;">person_off</span>
-            ${escapeHtml(msg)}
-        </div>`;
+    document.getElementById('profile-root').innerHTML =
+        '<div class="profile-not-found">' +
+        '<span class="material-symbols-outlined" style="font-size:3rem;display:block;margin-bottom:16px;opacity:0.3;">person_off</span>' +
+        escapeHtml(msg) + '</div>';
 }
 
-function renderProfile(username, userId, games, totalPlays, isOwn, color) {
-    const initial   = (username || '?').charAt(0).toUpperCase();
+function renderProfile(user, games, totalPlays, isOwn, color) {
+    const initial = (user.username || '?').charAt(0).toUpperCase();
     const gameCount = games.length;
 
-    const gamesHtml = games.length > 0
-        ? games.map(g => `
-            <div class="profile-game-card" onclick="window.location.href='play.html?id=${escapeHtml(g.game_id)}'">
-                <div class="profile-game-thumb">
-                    <img src="nebrixlogo.svg" alt="">
-                </div>
-                <div class="profile-game-name">${escapeHtml(g.name)}</div>
-                <div class="profile-game-plays">
-                    <span class="material-symbols-outlined" style="font-size:0.85rem;">play_circle</span>
-                    ${(g.play_count || 0).toLocaleString()} plays
-                </div>
-            </div>`).join("")
-        : `<div class="empty-state" style="border:none;padding:40px;">No published games yet.</div>`;
+    var gamesHtml = games.length > 0
+        ? games.map(function(g) {
+            return '<div class="profile-game-card" onclick="window.location.href=\'play.html?id=' + escapeHtml(g.game_id) + '\'">' +
+                '<div class="profile-game-thumb"><img src="nebrixlogo.svg" alt=""></div>' +
+                '<div class="profile-game-name">' + escapeHtml(g.name) + '</div>' +
+                '<div class="profile-game-plays"><span class="material-symbols-outlined" style="font-size:0.85rem;">play_circle</span>' +
+                (g.play_count || 0).toLocaleString() + ' plays</div></div>';
+        }).join('')
+        : '<div class="empty-state" style="border:none;padding:40px;">No published games yet.</div>';
 
-    const colorPickerHtml = isOwn ? `
-        <div class="sidebar-card">
-            <div class="sidebar-card-header">
-                <span class="material-symbols-outlined">palette</span>
-                Banner Color
-            </div>
-            <div class="sidebar-row" style="flex-wrap:wrap;gap:6px;padding:10px 12px;">
-                ${PROFILE_COLORS.map(c => `
-                    <span class="color-swatch ${c.top === color.top ? 'active' : ''}"
-                          style="background:linear-gradient(135deg,${c.top},${c.bottom});"
-                          title="${escapeHtml(c.name)}"
-                          onclick="changeProfileColor('${escapeHtml(userId || username)}', '${c.top}', '${c.bottom}')">
-                    </span>`).join("")}
-            </div>
-        </div>` : "";
+    var colorPickerHtml = isOwn
+        ? '<div class="sidebar-card"><div class="sidebar-card-header"><span class="material-symbols-outlined">palette</span>Banner Color</div>' +
+          '<div class="sidebar-row" style="flex-wrap:wrap;gap:6px;padding:10px 12px;">' +
+          PROFILE_COLORS.map(function(c) {
+              return '<span class="color-swatch' + (c.top === color.top ? ' active' : '') + '" style="background:linear-gradient(135deg,' + c.top + ',' + c.bottom + ');" title="' + escapeHtml(c.name) + '" onclick="changeProfileColor(\'' + user.id + '\',\'' + c.top + '\',\'' + c.bottom + '\')"></span>';
+          }).join('') + '</div></div>'
+        : '';
 
-    const html = `
-    <div class="profile-banner">
-        <div class="profile-banner-top" style="background:linear-gradient(135deg,${color.top} 0%,${color.bottom} 100%);"></div>
-        <div class="profile-banner-body">
-            <div class="profile-avatar" style="background:${color.top};">${initial}</div>
-            <div class="profile-info">
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                    <h1 class="profile-username">${escapeHtml(username)}</h1>
-                    ${isOwn ? '<span class="own-profile-badge">You</span>' : ""}
-                </div>
-                ${userId ? `<div class="profile-userid">ID: ${escapeHtml(String(userId))}</div>` : ""}
-                <div class="profile-joined">
-                    <span class="material-symbols-outlined" style="font-size:0.9rem;">public</span>
-                    Nebrix Creator
-                </div>
-            </div>
-            ${isOwn ? `<a href="settings.html" class="btn-secondary" style="margin-bottom:4px;">
-                <span class="material-symbols-outlined">settings</span> Settings
-            </a>` : ""}
-        </div>
-        <div class="profile-stats-bar">
-            <div class="profile-stat">
-                <div class="profile-stat-value">${gameCount}</div>
-                <div class="profile-stat-label">Games</div>
-            </div>
-            <div class="profile-stat">
-                <div class="profile-stat-value">${totalPlays.toLocaleString()}</div>
-                <div class="profile-stat-label">Total Plays</div>
-            </div>
-        </div>
-    </div>
+    var joinDate = 'Nebrix Creator';
+    if (user.created_at) {
+        joinDate = 'Joined ' + new Date(user.created_at * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
 
-    <div class="profile-layout">
-        <div class="profile-sidebar">
-            <div class="sidebar-card">
-                <div class="sidebar-card-header">
-                    <span class="material-symbols-outlined">info</span>
-                    About
-                </div>
-                <div class="sidebar-row">
-                    <span class="material-symbols-outlined">sports_esports</span>
-                    <span class="label">Games</span>
-                    <span>${gameCount} published</span>
-                </div>
-                <div class="sidebar-row">
-                    <span class="material-symbols-outlined">play_circle</span>
-                    <span class="label">Plays</span>
-                    <span>${totalPlays.toLocaleString()}</span>
-                </div>
-                <div class="sidebar-row">
-                    <span class="material-symbols-outlined">public</span>
-                    <span class="label">Platform</span>
-                    <span>Nebrix</span>
-                </div>
-            </div>
-            ${colorPickerHtml}
-            ${isOwn ? `
-            <div class="sidebar-card">
-                <div class="sidebar-card-header">
-                    <span class="material-symbols-outlined">link</span>
-                    Quick Links
-                </div>
-                <div class="sidebar-row clickable" onclick="window.location.href='settings.html'">
-                    <span class="material-symbols-outlined">settings</span>
-                    Settings
-                </div>
-                <div class="sidebar-row clickable" onclick="window.location.href='home.html'">
-                    <span class="material-symbols-outlined">home</span>
-                    Home
-                </div>
-            </div>` : ""}
-        </div>
+    var html =
+    '<div class="profile-banner">' +
+        '<div class="profile-banner-top" style="background:linear-gradient(135deg,' + color.top + ' 0%,' + color.bottom + ' 100%);"></div>' +
+        '<div class="profile-banner-body">' +
+            '<div class="profile-avatar" style="background:' + color.top + ';">' + initial + '</div>' +
+            '<div class="profile-info">' +
+                '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' +
+                    '<h1 class="profile-username">' + escapeHtml(user.username) + '</h1>' +
+                    (isOwn ? '<span class="own-profile-badge">You</span>' : '') +
+                '</div>' +
+                '<div class="profile-userid">ID: ' + user.id + '</div>' +
+                '<div class="profile-joined">' +
+                    '<span class="material-symbols-outlined" style="font-size:0.9rem;">calendar_today</span>' + joinDate +
+                '</div>' +
+            '</div>' +
+            (isOwn ? '<a href="settings.html" class="btn-secondary" style="margin-bottom:4px;"><span class="material-symbols-outlined">settings</span> Settings</a>' : '') +
+        '</div>' +
+        '<div class="profile-stats-bar">' +
+            '<div class="profile-stat"><div class="profile-stat-value">' + gameCount + '</div><div class="profile-stat-label">Games</div></div>' +
+            '<div class="profile-stat"><div class="profile-stat-value">' + totalPlays.toLocaleString() + '</div><div class="profile-stat-label">Total Plays</div></div>' +
+        '</div>' +
+    '</div>' +
+    '<div class="profile-layout">' +
+        '<div class="profile-sidebar">' +
+            '<div class="sidebar-card">' +
+                '<div class="sidebar-card-header"><span class="material-symbols-outlined">info</span>About</div>' +
+                '<div class="sidebar-row"><span class="material-symbols-outlined">sports_esports</span><span class="label">Games</span><span>' + gameCount + ' published</span></div>' +
+                '<div class="sidebar-row"><span class="material-symbols-outlined">play_circle</span><span class="label">Plays</span><span>' + totalPlays.toLocaleString() + '</span></div>' +
+                '<div class="sidebar-row"><span class="material-symbols-outlined">fingerprint</span><span class="label">ID</span><span style="font-family:monospace;">#' + user.id + '</span></div>' +
+            '</div>' +
+            colorPickerHtml +
+            (isOwn ?
+            '<div class="sidebar-card">' +
+                '<div class="sidebar-card-header"><span class="material-symbols-outlined">link</span>Quick Links</div>' +
+                '<div class="sidebar-row clickable" onclick="window.location.href=\'settings.html\'"><span class="material-symbols-outlined">settings</span>Settings</div>' +
+                '<div class="sidebar-row clickable" onclick="window.location.href=\'home.html\'"><span class="material-symbols-outlined">home</span>Home</div>' +
+            '</div>' : '') +
+        '</div>' +
+        '<div class="profile-main">' +
+            '<div class="profile-section">' +
+                '<div class="profile-section-header">' +
+                    '<div class="profile-section-header-left"><span class="material-symbols-outlined">sports_esports</span>Games by ' + escapeHtml(user.username) + '</div>' +
+                    '<span style="font-size:0.8rem;color:var(--text-muted);font-weight:700;">' + gameCount + ' game' + (gameCount !== 1 ? 's' : '') + '</span>' +
+                '</div>' +
+                '<div class="profile-games-grid">' + gamesHtml + '</div>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
 
-        <div class="profile-main">
-            <div class="profile-section">
-                <div class="profile-section-header">
-                    <div class="profile-section-header-left">
-                        <span class="material-symbols-outlined">sports_esports</span>
-                        Games by ${escapeHtml(username)}
-                    </div>
-                    <span style="font-size:0.8rem;color:var(--text-muted);font-weight:700;">${gameCount} game${gameCount !== 1 ? "s" : ""}</span>
-                </div>
-                <div class="profile-games-grid">${gamesHtml}</div>
-            </div>
-        </div>
-    </div>`;
-
-    document.getElementById("profile-root").innerHTML = html;
+    document.getElementById('profile-root').innerHTML = html;
 }
 
 function changeProfileColor(identifier, topColor, bottomColor) {
-    const color = { top: topColor, bottom: bottomColor };
-    setProfileColor(identifier, color);
+    setProfileColor(identifier, { top: topColor, bottom: bottomColor });
     location.reload();
 }
 </script>
-
 </body>
 </html>
